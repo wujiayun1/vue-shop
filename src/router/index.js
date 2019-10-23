@@ -1,20 +1,27 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
+import Login from '../components/login.vue'
 
+Vue.use(Router)
 
-Vue.use(VueRouter)
+const router = new Router({
+  routes:[
+    {path:'/',redirect:'/login'},
+    {path:'/login',component:Login},
+    {path:'/home',component:()=>import('../components/home.vue')}
+  ]
+})
+//配置路由导航守卫
 
-const routes = [
- 
+router.beforeEach((to, from, next) => {
+  //to表示将要访问的路劲
+  //from代表从哪个路劲跳转而来
+  //next是一个函数，表示放行
+  if(to.path==='/login') return next();
+  let tokenStr=window.sessionStorage.getItem('token')
+  if(!tokenStr) return next('/login')
+  next()
 
-
-]
-
-
-
-
-const router = new VueRouter({
-  routes
 })
 
 export default router
