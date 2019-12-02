@@ -30,8 +30,8 @@ export default {
     return {
       //表单文本框绑定的数据
       LoginForm: {
-        username: 'admin',
-        password: '123456'
+        username: '',
+        password: ''
       },
       //表单验证规则
       LoginFormRules: {
@@ -59,7 +59,7 @@ export default {
       this.$refs.loginFormRef.validate(async val => {
         //val是一个布尔值，如果为true则表示验证通过，反之则没有通过
         if (!val) {
-          return
+          return alert(1)
         }
         //发送登陆请求
         const { data: res } = await this.$http.post('login', this.LoginForm)
@@ -74,8 +74,7 @@ export default {
           type: 'success',
           duration: 2000
         })
-        console.log(res)
-        //登陆成功过后需要将token存储到sessionStorage中，因为项目中除了登陆页面其余的页面必须
+        //登陆成功过后需要将token存储到sessionStorage中，因为项目中除了登陆页面其余的页面必须要有权限才能访问
         //在登陆之后才能访问
         window.sessionStorage.setItem('token', res.data.token)
         //通过编程式导航跳转到后台主页，路由地址是/home
